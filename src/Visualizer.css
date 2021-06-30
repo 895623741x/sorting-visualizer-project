@@ -1,0 +1,10 @@
+.bar-area {
+   position: absolute;
+}
+
+.bar {
+   width: 5px;
+   display: inline-block;
+   margin: 2px;
+   background-color: blueviolet;
+}
