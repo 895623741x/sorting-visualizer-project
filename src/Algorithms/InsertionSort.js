@@ -17,6 +17,5 @@ export function getInsertionSortAnimations(arr) {
          } else break;
       }
    }
-   //  return animations;
-   console.log(animations);
+   return animations;
 }
