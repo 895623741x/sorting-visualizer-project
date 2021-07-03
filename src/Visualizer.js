@@ -10,16 +10,19 @@ function Visualizer() {
    const [isSorting, setIsSorting] = useState(false);
    const [isFinished, setIsFinished] = useState(false);
    const containerRef = useRef(null);
+
    console.log(arrays);
+
    const initializeArrays = () => {
       if (isSorting) return;
 
       if (isFinished) {
-         resetBarsColor();
+         // resetBarsColor();
+         resetArrayColour();
       }
       setIsFinished(false);
       const array = [];
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 60; i++) {
          array.push(randomizeValues(10, 500));
       }
       setArrays(array);
@@ -42,93 +45,92 @@ function Visualizer() {
       animateArrayUpdate(animations);
    };
 
-   const animateArrayUpdate = (animations) => {
+   // Bubble Sort
+
+   function animateArrayUpdate(animations) {
       if (isSorting) return;
       setIsSorting(true);
-
       animations.forEach(([comparison, swapped], index) => {
          setTimeout(() => {
             if (!swapped) {
                if (comparison.length === 2) {
                   const [i, j] = comparison;
-                  render(i);
-                  render(j);
+                  animateArrayAccess(i);
+                  animateArrayAccess(j);
                } else {
                   const [i] = comparison;
-                  render(i);
+                  animateArrayAccess(i);
                }
             } else {
-               setArrays((prevArray) => {
+               setArrays((prevArr) => {
                   const [k, newValue] = comparison;
-                  const newArray = [...prevArray];
-                  newArray[k] = newValue;
-                  return newArray;
+                  const newArr = [...prevArr];
+                  newArr[k] = newValue;
+                  return newArr;
                });
             }
          }, index * 5);
-
-         setTimeout(() => {
-            animateSortedArray();
-         }, animations.length * 5);
       });
-   };
-
-   const render = (index) => {
-      const bars = containerRef.current.children;
-      const barStyle = bars[index].style;
-
-      //rendering the bar
       setTimeout(() => {
-         barStyle.backgroundColor = "red";
+         animateSortedArray();
+      }, animations.length * 5);
+   }
+
+   function animateArrayAccess(index) {
+      const arrayBars = containerRef.current.children;
+      const arrayBarStyle = arrayBars[index].style;
+      setTimeout(() => {
+         arrayBarStyle.backgroundColor = "red";
       }, 5);
-
-      // after we render the bar
       setTimeout(() => {
-         barStyle.backgroundColor = "";
-      }, 10);
-   };
+         arrayBarStyle.backgroundColor = "";
+      }, 5 * 2);
+   }
 
-   const animateSortedArray = () => {
-      const bars = containerRef.current.children;
-
-      for (let i = 0; i < bars.length; i++) {
-         const barStyle = bars[i].style;
-
-         setTimeout(() => {
-            barStyle.backgroundColor = "purple";
-         }, i * 5);
+   function animateSortedArray() {
+      const arrayBars = containerRef.current.children;
+      for (let i = 0; i < arrayBars.length; i++) {
+         const arrayBarStyle = arrayBars[i].style;
+         setTimeout(() => (arrayBarStyle.backgroundColor = "purple"), i * 5);
       }
-
       setTimeout(() => {
          setIsFinished(true);
          setIsSorting(false);
-      }, bars.length * 5);
-   };
+      }, arrayBars.length * 5);
+   }
 
-   const resetBarsColor = () => {
-      const bars = containerRef.current.children;
-
-      for (let i = 0; i < bars.length; i++) {
-         bars[i].style.backgroundColor = "pink";
+   function resetArrayColour() {
+      const arrayBars = containerRef.current.children;
+      for (let i = 0; i < arrays.length; i++) {
+         const arrayBarStyle = arrayBars[i].style;
+         arrayBarStyle.backgroundColor = "pink";
       }
-   };
+   }
 
    return (
-      <div>
+      <div className="container">
          <div className="header">
             <h2>Sorting Algorithm Visualizer</h2>
          </div>
          <div className="bars-area" ref={containerRef}>
             {arrays.map((value, index) => (
-               <div className="bar" style={{ height: `${value}px`, backgroundColor: "pink" }} key={index}></div>
+               <div
+                  className="bar"
+                  style={{ height: `${value}px`, backgroundColor: "pink" }}
+                  data-tooltip={value}
+                  key={index}
+               >
+                  {/* <div className="avatar" data-tooltip={value}></div> */}
+               </div>
             ))}
          </div>
          <div className="buttons">
             <button onClick={initializeArrays}>Rest the Bars</button>
-            <button onClick={quickSort}>Quick Sort</button>
+            <button onClick={quickSort} className="login-btn">
+               Quick Sort
+            </button>
             <button onClick={mergeSort}>Merge Sort</button>
             <button onClick={insertionSort}>Insertion Sort</button>
-            <button>Bubble Sort</button>
          </div>
       </div>
    );
