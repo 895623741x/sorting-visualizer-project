@@ -35,7 +35,7 @@
    --scale: 0;
    --tooltip-color: #333;
    --arrow-size: 5px;
-
+   font-size: 10px;
    position: absolute;
    top: -0.25rem;
    left: 50%;
