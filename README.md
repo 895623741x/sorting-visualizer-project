@@ -9,3 +9,7 @@ This project was built to help me understand how sorting algorithms work for sor
 -  CSS
 -  CPSC 221: Basic Algorithms and Data Structures
 -  Merge Sort, Quick Sort, Insertion Sort
+
+## Project Link
+
+https://peaceful-swirles-741650.netlify.app/

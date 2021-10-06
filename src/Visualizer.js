@@ -13,12 +13,12 @@ function Visualizer() {
 
    console.log(arrays);
 
-   const initializeArrays = () => {
+   const init = () => {
       if (isSorting) return;
 
       if (isFinished) {
          // resetBarsColor();
-         resetArrayColour();
+         reset();
       }
       setIsFinished(false);
       const array = [];
@@ -29,7 +29,7 @@ function Visualizer() {
    };
 
    useEffect(() => {
-      initializeArrays();
+      init();
    }, []);
 
    const mergeSort = () => {
@@ -99,7 +99,7 @@ function Visualizer() {
       }, arrayBars.length * 5);
    }
 
-   function resetArrayColour() {
+   function reset() {
       const arrayBars = containerRef.current.children;
       for (let i = 0; i < arrays.length; i++) {
          const arrayBarStyle = arrayBars[i].style;
@@ -125,7 +125,7 @@ function Visualizer() {
             ))}
          </div>
          <div className="buttons">
-            <button onClick={initializeArrays}>Rest the Bars</button>
+            <button onClick={init}>Rest the Bars</button>
             <button onClick={quickSort} className="login-btn">
                Quick Sort
             </button>
